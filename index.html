@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Revenue dashboard with secure login and admin access" />
+    <title>Revenue Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">R</div>
+          <div>
+            <p class="eyebrow">Analytics Suite</p>
+            <h2>Revenue OS</h2>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="main navigation">
+          <button type="button" class="nav-item active">Overview</button>
+          <button type="button" class="nav-item">Customers</button>
+          <button type="button" class="nav-item">Forecasts</button>
+          <button type="button" class="nav-item">Segments</button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="eyebrow">Quarter target</p>
+          <div class="big-number">$2.84M</div>
+          <div class="progress"><span style="width: 76%"></span></div>
+          <p class="mini-text">76% of target achieved</p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow muted">Business performance</p>
+            <h1>Revenue dashboard</h1>
+          </div>
+
+          <div class="toolbar">
+            <div class="preset-group" aria-label="date range selector">
+              <button type="button" class="range-btn" data-range="30d">30D</button>
+              <button type="button" class="range-btn" data-range="90d">90D</button>
+              <button type="button" class="range-btn" data-range="6m">6M</button>
+              <button type="button" class="range-btn active" data-range="12m">12M</button>
+              <button type="button" class="range-btn" data-range="all">All</button>
+            </div>
+
+            <div class="date-pickers">
+              <label>
+                <span>Start</span>
+                <input id="startDate" type="date" />
+              </label>
+              <label>
+                <span>End</span>
+                <input id="endDate" type="date" />
+              </label>
+            </div>
+          </div>
+        </header>
+
+        <section id="authSection" class="auth-panel">
+          <div class="auth-box">
+            <div class="auth-tabs" role="tablist" aria-label="Authentication modes">
+              <button class="tab-btn active" type="button" data-mode="user-login">User Login</button>
+              <button class="tab-btn" type="button" data-mode="admin-login">Admin Login</button>
+              <button class="tab-btn" type="button" data-mode="signup">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+              <label>
+                <span>Email</span>
+                <input id="loginEmail" type="email" placeholder="you@example.com" required />
+              </label>
+              <label>
+                <span>Password</span>
+                <div class="password-wrap">
+                  <input id="loginPassword" type="password" placeholder="Enter password" required />
+                  <button type="button" class="tiny-btn" data-toggle="loginPassword">Show</button>
+                </div>
+              </label>
+              <button type="submit" class="primary-btn">Sign in</button>
+            </form>
+
+            <form id="signupForm" class="auth-form hidden">
+              <label>
+                <span>Name</span>
+                <input id="signupName" type="text" placeholder="Your full name" required />
+              </label>
+              <label>
+                <span>Email</span>
+                <input id="signupEmail" type="email" placeholder="you@example.com" required />
+              </label>
+              <label>
+                <span>Password</span>
+                <div class="password-wrap">
+                  <input id="signupPassword" type="password" placeholder="Create a password" required />
+                  <button type="button" class="tiny-btn" data-toggle="signupPassword">Show</button>
+                </div>
+              </label>
+              <label>
+                <span>Confirm password</span>
+                <div class="password-wrap">
+                  <input id="signupConfirmPassword" type="password" placeholder="Confirm password" required />
+                  <button type="button" class="tiny-btn" data-toggle="signupConfirmPassword">Show</button>
+                </div>
+              </label>
+              <div id="passwordRules" class="password-rules" aria-live="polite">
+                <span>• 8+ characters</span>
+                <span>• 1 uppercase</span>
+                <span>• 1 number</span>
+                <span>• 1 special character</span>
+              </div>
+              <button type="submit" class="primary-btn">Create account</button>
+            </form>
+
+            <div id="authMessage" class="auth-message" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="dashboardSection" class="hidden">
+          <section class="kpi-grid" aria-label="Key performance indicators">
+            <article class="kpi-card primary">
+              <div class="kpi-top">
+                <span class="kpi-label">Revenue</span>
+                <span class="chip positive">+12.6%</span>
+              </div>
+              <div id="totalRevenueValue" class="kpi-value">$0</div>
+              <div class="kpi-meta">Across selected period</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Growth</span>
+                <span class="chip neutral">YoY</span>
+              </div>
+              <div id="growthValue" class="kpi-value">0%</div>
+              <div id="growthMeta" class="kpi-meta">Month-over-month</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Churn</span>
+                <span class="chip danger">Target &lt;3%</span>
+              </div>
+              <div id="churnValue" class="kpi-value">0%</div>
+              <div id="churnMeta" class="kpi-meta">Average contraction</div>
+            </article>
+          </section>
+
+          <section class="charts-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Trend</p>
+                  <h3>Revenue trend</h3>
+                </div>
+                <span id="revenueRangeLabel" class="mini-badge">--</span>
+              </div>
+              <svg id="revenueChart" viewBox="0 0 700 260" aria-label="Revenue chart"></svg>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Retention</p>
+                  <h3>Customer retention</h3>
+                </div>
+                <span class="mini-badge alt">Target 96%</span>
+              </div>
+              <svg id="retentionChart" viewBox="0 0 700 260" aria-label="Retention chart"></svg>
+            </article>
+          </section>
+
+          <section class="panel table-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Breakdown</p>
+                <h3>Revenue by segment</h3>
+              </div>
+              <button id="logoutBtn" class="secondary-btn" type="button">Log out</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Segment</th>
+                    <th>Revenue</th>
+                    <th>Growth</th>
+                    <th>Churn</th>
+                    <th>Customers</th>
+                  </tr>
+                </thead>
+                <tbody id="breakdownTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div id="tooltip" class="tooltip" hidden></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
